@@ -48,8 +48,6 @@ class LSTMAttentionCell(LSTMCell):
         batch, input_dim = input_shape
         lstm_input = (batch, input_dim + input_dim)
 
-#         tf.print("Building RNNCellWithConstantsLayer")
-#         tf.print(input_shape)
         super(LSTMAttentionCell, self).build(lstm_input)
 
     @property
@@ -80,42 +78,29 @@ class LSTMAttentionCell(LSTMCell):
 
     def call(self, inputs, states, constants):
         """TODO(sshah): Complete Function Docstring"""
-#         tf.print("Calling RNNCellWithConstantsLayer")
-#         tf.print("Time Step Input:")
-#         tf.print(inputs)
-#         tf.print("Time Step State Tupule:")
-#         tf.print(states)
-#         tf.print("Time Step Constant:")
-#         tf.print(constants[0])
 
+
+        # hidden shape: (BATCH_SIZE, UNITS)
         _, hidden = states
-        # We will use the "carry state" to guide the attention mechanism. Repeat it across all
-        # input timesteps to perform some calculations on it.
+
+        # hidden_repeated shape: (BATCH_SIZE, TIMESTEPS, UNITS)
         hidden_repeated = K.repeat(self._query_weight(hidden), self._timesteps)
-        # Now apply our "dense_transform" operation on the sum of our transformed "carry state"
-        # and all encoder states. This will squash the resultant sum down to a vector of size
-        # [batch,timesteps,1]
+
+        # alignment_score shape: (BATCH, TIMESTEPS, 1)
         alignment_score = self._alignment_weight(
             tanh(hidden_repeated + self._input_seq_shaped))
 
+        # score_vector shape: (BATCH, TIMESTEPS, 1)
         score_vector = softmax(alignment_score, 1)
 
-        print("Score Vector Shape:")
-        print(score_vector)
-
+        # context_vector shape: (BATCH, INPUT_DIM)
         context_vector = K.sum(score_vector * self._input_seq, 1)
 
-#         print("Context Vector Shape:")
-#         print(context_vector.shape)
+        # dec_inputs shape: (BATCH, INPUT_DIM + CONTEXT_DIM)
+        dec_inputs = K.concatenate([inputs, context_vector], 1)
 
-#         print("Decoder Input Shape:")
-#         print(inputs.shape)
-
-        inputs = K.concatenate([inputs, context_vector], 1)
-#         print("Concatenated Input Shape:")
-#         print(inputs.shape)
-
-        res = super(LSTMAttentionCell, self).call(inputs=inputs, states=states)
+        
+        res = super(LSTMAttentionCell, self).call(inputs=dec_inputs, states=states)
 #         tf.print(res)
 
 #         print(hidden_repeated.shape)
@@ -171,7 +156,7 @@ if __name__ == "__main__":
     INPUTS = tf.random.normal([1, 10, 2], dtype=tf.float32)
     MEMORY = tf.ones([1, 10, 2], dtype=tf.float32)
 
-    ATTENTION_CELL = LSTMAttentionCell(units=2,
+    ATTENTION_CELL = LSTMAttentionCell(units=20,
                                        recurrent_initializer=Orthogonal,
                                        kernel_initializer=Orthogonal)
     LAYER = LSTMAttentionLayer(ATTENTION_CELL, return_sequences=True, return_state=True)
