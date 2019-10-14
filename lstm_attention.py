@@ -17,6 +17,9 @@ from tensorflow.keras.activations import tanh, softmax
 
 tf.random.set_seed(1)
 
+class BahdanauAttention():
+    pass
+
 class LSTMAttentionCell(LSTMCell):
     """TODO(sshah): Complete Class Docstring"""
     # pylint: disable=too-many-instance-attributes
@@ -165,14 +168,14 @@ class LSTMAttentionLayer(RNN):
         return super(LSTMAttentionLayer, self).call(inputs=inputs, constants=constants, **kwargs)
 
 if __name__ == "__main__":
-    inputs = tf.random.normal([1, 10, 2], dtype=tf.float32)
-    memory = tf.ones([1, 10, 2], dtype=tf.float32)
+    INPUTS = tf.random.normal([1, 10, 2], dtype=tf.float32)
+    MEMORY = tf.ones([1, 10, 2], dtype=tf.float32)
 
-    attention_cell = LSTMAttentionCell(units=2,
+    ATTENTION_CELL = LSTMAttentionCell(units=2,
                                        recurrent_initializer=Orthogonal,
                                        kernel_initializer=Orthogonal)
-    layer = LSTMAttentionLayer(attention_cell, return_sequences=True, return_state=True)
-    layer.cell.attention_mode = True
+    LAYER = LSTMAttentionLayer(ATTENTION_CELL, return_sequences=True, return_state=True)
+    LAYER.cell.attention_mode = True
 
-    outputs, final_h, final_c = layer(inputs=inputs, constants=memory)
-    print(outputs)
+    OUTPUTS, FINAL_H, FINAL_C = LAYER(inputs=INPUTS, constants=MEMORY)
+    print(OUTPUTS)
