@@ -20,14 +20,26 @@ tf.random.set_seed(1)
 class BahdanauAttention():
     pass
 
+class CosineAttention():
+    pass
+
+class LocationBasedAttention():
+    pass
+
+class GeneralAttention():
+    pass
+
+class DotProductAttention():
+    pass
+
 class LSTMAttentionCell(LSTMCell):
     """TODO(sshah): Complete Class Docstring"""
     # pylint: disable=too-many-instance-attributes
     # Justifiable number of attributes in this case
-    def __init__(self, units, **kwargs):
+    def __init__(self, units, attention_mode = False, **kwargs):
         """TODO(sshah): Complete Function Docstring"""
         self._units = units
-        self._attention_mode = False
+        self._attention_mode = attention_mode
         self._input_seq = None
         self._input_seq_shaped = None
         self._timesteps = None
@@ -49,6 +61,11 @@ class LSTMAttentionCell(LSTMCell):
         lstm_input = (batch, input_dim + input_dim)
 
         super(LSTMAttentionCell, self).build(lstm_input)
+
+    @property
+    def return_attention(self):
+        """TODO(sshah): Complete Function Docstring"""
+        return self._return_attention
 
     @property
     def attention_mode(self):
@@ -79,6 +96,7 @@ class LSTMAttentionCell(LSTMCell):
     def call(self, inputs, states, constants):
         """TODO(sshah): Complete Function Docstring"""
 
+        # TODO(sshah): Implement Class based attention mechanism
 
         # hidden shape: (BATCH_SIZE, UNITS)
         _, hidden = states
@@ -160,7 +178,7 @@ if __name__ == "__main__":
                                        recurrent_initializer=Orthogonal,
                                        kernel_initializer=Orthogonal)
     LAYER = LSTMAttentionLayer(ATTENTION_CELL, return_sequences=True, return_state=True)
-    LAYER.cell.attention_mode = True
+    # LAYER.cell.attention_mode = True
 
     OUTPUTS, FINAL_H, FINAL_C = LAYER(inputs=INPUTS, constants=MEMORY)
     print(OUTPUTS)
