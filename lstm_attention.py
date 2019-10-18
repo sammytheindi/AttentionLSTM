@@ -121,12 +121,6 @@ class LSTMAttentionCell(LSTMCell):
         # dec_inputs shape: (BATCH, INPUT_DIM + CONTEXT_DIM)
         dec_inputs = K.concatenate([inputs, context_vector], 1)
 
-        print("dec_inputs")
-        print(dec_inputs.shape)
-
-        print("states")
-        print(states[0].shape)
-
         res = super(LSTMAttentionCell, self).call(inputs=dec_inputs, states=states)
 
         if self.attention_mode:
@@ -182,6 +176,5 @@ if __name__ == "__main__":
                                        kernel_initializer=Orthogonal)
     LAYER = LSTMAttentionLayer(ATTENTION_CELL, return_sequences=True, return_state=True)
     LAYER.cell.attention_mode = False
-
     OUTPUTS, FINAL_H, FINAL_C = LAYER(inputs=INPUTS, constants=MEMORY)
     print(OUTPUTS)
