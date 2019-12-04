@@ -186,7 +186,6 @@ class LSTMAttentionLayer(RNN):
         super(LSTMAttentionLayer, self).build(input_shape)
 
     def call(self, inputs, **kwargs):
-<<<<<<< HEAD
         print("RNN Call")
         print("RNN Call Inputs: {}".format(inputs))
         """TODO(sshah): Complete Function Docstring"""
@@ -211,19 +210,6 @@ if __name__ == "__main__":
     MEMORY = Input(shape=(11, 1024))
 
     ATTENTION_CELL = LSTMAttentionCell(units=units,
-=======
-        """TODO(sshah): Complete Function Docstring"""
-        # self.cell._dropout_mask = None
-        # self.cell._recurrent_dropout_mask = None
-        self.cell.set_input_sequence(inputs[-1])
-        return super(LSTMAttentionLayer, self).call(inputs, **kwargs)
-
-if __name__ == "__main__":
-    INPUTS = Input(shape=(10, 2))
-    MEMORY = Input(shape=(10, 2))
-
-    ATTENTION_CELL = LSTMAttentionCell(units=20,
->>>>>>> 4f6e5737372fdc8ace292f254f18606a1f3c23cf
                                        attention_mode=True,
                                        recurrent_initializer=Orthogonal,
                                        kernel_initializer=Orthogonal)
