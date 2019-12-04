@@ -3,11 +3,7 @@ import tensorflow as tf
 import tensorflow.keras.backend as K
 from tensorflow.keras.initializers import Orthogonal
 from tensorflow.python.keras.utils import tf_utils
-<<<<<<< HEAD
 from tensorflow.keras.layers import RNN, Dense, TimeDistributed, LSTMCell, Input
-=======
-from tensorflow.keras.layers import RNN, Dense, TimeDistributed, LSTMCell, Input, Embedding
->>>>>>> 4f6e5737372fdc8ace292f254f18606a1f3c23cf
 from tensorflow.keras.activations import tanh, softmax
 
 tf.random.set_seed(1)
@@ -32,10 +28,7 @@ class LSTMAttentionCell(LSTMCell):
     # pylint: disable=too-many-instance-attributes
     # Justifiable number of attributes in this case
     def __init__(self, units, attention_mode=False, **kwargs):
-<<<<<<< HEAD
         print("LSTMCell Init")
-=======
->>>>>>> 4f6e5737372fdc8ace292f254f18606a1f3c23cf
         """TODO(sshah): Complete Function Docstring"""
         self._units = units
         self._attention_mode = attention_mode
@@ -111,17 +104,12 @@ class LSTMAttentionCell(LSTMCell):
         self._input_seq_shaped = self._memory_weight(self._input_seq)
 
     def call(self, inputs, states, constants):
-<<<<<<< HEAD
         print("LSTMCell Call")
         print("inputs: {}".format(inputs))
         print("states: {}".format(states))
         print("constants: {}".format(constants))
         """TODO(sshah): Complete Function Docstring"""  
         
-=======
-        """TODO(sshah): Complete Function Docstring"""
-
->>>>>>> 4f6e5737372fdc8ace292f254f18606a1f3c23cf
         # TODO(sshah): Implement Class based attention mechanism
 
         # hidden shape: (BATCH_SIZE, UNITS)
