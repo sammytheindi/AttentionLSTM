@@ -1,17 +1,13 @@
 """ TODO(sshah): Complete Module Docstring"""
-
-# import unicodedata
-# import re
-# import numpy as np
-# import os
-# import time
-# import shutil
-
 import tensorflow as tf
 import tensorflow.keras.backend as K
 from tensorflow.keras.initializers import Orthogonal
 from tensorflow.python.keras.utils import tf_utils
+<<<<<<< HEAD
 from tensorflow.keras.layers import RNN, Dense, TimeDistributed, LSTMCell, Input
+=======
+from tensorflow.keras.layers import RNN, Dense, TimeDistributed, LSTMCell, Input, Embedding
+>>>>>>> 4f6e5737372fdc8ace292f254f18606a1f3c23cf
 from tensorflow.keras.activations import tanh, softmax
 
 tf.random.set_seed(1)
@@ -36,7 +32,10 @@ class LSTMAttentionCell(LSTMCell):
     # pylint: disable=too-many-instance-attributes
     # Justifiable number of attributes in this case
     def __init__(self, units, attention_mode=False, **kwargs):
+<<<<<<< HEAD
         print("LSTMCell Init")
+=======
+>>>>>>> 4f6e5737372fdc8ace292f254f18606a1f3c23cf
         """TODO(sshah): Complete Function Docstring"""
         self._units = units
         self._attention_mode = attention_mode
@@ -112,12 +111,17 @@ class LSTMAttentionCell(LSTMCell):
         self._input_seq_shaped = self._memory_weight(self._input_seq)
 
     def call(self, inputs, states, constants):
+<<<<<<< HEAD
         print("LSTMCell Call")
         print("inputs: {}".format(inputs))
         print("states: {}".format(states))
         print("constants: {}".format(constants))
         """TODO(sshah): Complete Function Docstring"""  
         
+=======
+        """TODO(sshah): Complete Function Docstring"""
+
+>>>>>>> 4f6e5737372fdc8ace292f254f18606a1f3c23cf
         # TODO(sshah): Implement Class based attention mechanism
 
         # hidden shape: (BATCH_SIZE, UNITS)
@@ -182,6 +186,7 @@ class LSTMAttentionLayer(RNN):
         super(LSTMAttentionLayer, self).build(input_shape)
 
     def call(self, inputs, **kwargs):
+<<<<<<< HEAD
         print("RNN Call")
         print("RNN Call Inputs: {}".format(inputs))
         """TODO(sshah): Complete Function Docstring"""
@@ -206,6 +211,19 @@ if __name__ == "__main__":
     MEMORY = Input(shape=(11, 1024))
 
     ATTENTION_CELL = LSTMAttentionCell(units=units,
+=======
+        """TODO(sshah): Complete Function Docstring"""
+        # self.cell._dropout_mask = None
+        # self.cell._recurrent_dropout_mask = None
+        self.cell.set_input_sequence(inputs[-1])
+        return super(LSTMAttentionLayer, self).call(inputs, **kwargs)
+
+if __name__ == "__main__":
+    INPUTS = Input(shape=(10, 2))
+    MEMORY = Input(shape=(10, 2))
+
+    ATTENTION_CELL = LSTMAttentionCell(units=20,
+>>>>>>> 4f6e5737372fdc8ace292f254f18606a1f3c23cf
                                        attention_mode=True,
                                        recurrent_initializer=Orthogonal,
                                        kernel_initializer=Orthogonal)
