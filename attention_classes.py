@@ -19,7 +19,7 @@ class LuongAttentionBase(ABC, tf.keras.layers.Layer):
         score_vector = softmax(alignment_score, 1)
         context_vector = K.sum(score_vector * self.input_seq, 1)
         
-        return context_vector
+        return context_vector, score_vector
     
     def set_input_sequence(self, input_seq):
         """TODO(sshah): Complete Function Docstring"""
